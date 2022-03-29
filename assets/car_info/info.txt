@@ -1,0 +1,5 @@
+Golf MK5;20 Euro;Golf MK5, 1.9L TDI, 2008;True
+Subaru Wrx Sti;100 Euro;Subaru Wrx Sti, Description;False
+Opel Astra;20 Euro;Opel Astra, 2.0L TDI, 2012;False
+Ford Focus;20 Euro;Description;False
+BMW;20 Euro;Pershkrim;True
