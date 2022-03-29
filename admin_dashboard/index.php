@@ -6,6 +6,14 @@
     $dir = "../assets/car_pages/";
     $info_dir = "../assets/car_info/info.txt";
 
+    if (!file_exists($dir)) {
+        mkdir($dir, 0777, true);
+    }
+
+    if (!file_exists("../images/car_images/")) {
+        mkdir("../images/car_images/", 0777, true);
+    }
+
     function getDirFilenames($dir)
     {
         $files = array();
@@ -42,6 +50,7 @@
         }
         return $car_info;
     }
+
     ?>
 
     <table border="1">
@@ -51,6 +60,7 @@
             <th>Description</th>
             <th>Availability</th>
             <th>Edit</th>
+            <th>Delete</th>
         </tr>
 
         <?php
@@ -62,10 +72,13 @@
             echo "<td>" . $car_info[$i][2] . "</td>";
             echo "<td>" . $car_info[$i][3] . "</td>";
             echo "<td>" . "<a href='edit.php?car_name=" . $car_info[$i][0] . "'><button> Edit </button> </a>" . "</td>";
+            echo "<td>" . "<a href='delete.php?car_name=" . $car_info[$i][0] . "'><button> Delete </button> </a>" . "</td>";
             echo "</tr>";
         }
         ?>
     </table>
+
+    <a href="add.php"><button>Shto makine</button></a>
 
 </body>
 
