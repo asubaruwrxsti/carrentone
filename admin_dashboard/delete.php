@@ -32,7 +32,8 @@ if (isset($_GET['car_name'])) {
         }
     }
     rmdir($car_dir);
-    $car_image_dir = "../assets/car_images/" . $car_name;
+
+    $car_image_dir = "../images/car_images/" . $car_name;
     $car_image_dir_array = scandir($car_image_dir);
     foreach ($car_image_dir_array as $file) {
         if ($file != "." && $file != "..") {
@@ -40,13 +41,6 @@ if (isset($_GET['car_name'])) {
         }
     }
     rmdir($car_image_dir);
-
-    //delete empty lines from info.txt
-    $info_array = file($info_dir);
-    $info_array = array_filter($info_array);
-    $info_array = array_values($info_array);
-    $info_array = implode("", $info_array);
-    file_put_contents($info_dir, $info_array);
     
 
     header("Location: /admin_dashboard/index.php");

@@ -39,6 +39,7 @@
             $car_price[] = explode(";", $line)[1];
             $car_desc[] = explode(";", $line)[2];
             $car_availability[] = explode(";", $line)[3];
+            $car_transmission[] = explode(";", $line)[4];
         }
 
         $car_info = array();
@@ -47,6 +48,7 @@
             $car_info[$i][1] = $car_price[$i];
             $car_info[$i][2] = $car_desc[$i];
             $car_info[$i][3] = $car_availability[$i];
+            $car_info[$i][4] = $car_transmission[$i];
         }
         return $car_info;
     }
@@ -59,6 +61,7 @@
             <th>Price</th>
             <th>Description</th>
             <th>Availability</th>
+            <th>Transmission</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -71,6 +74,7 @@
             echo "<td>" . $car_info[$i][1] . "</td>";
             echo "<td>" . $car_info[$i][2] . "</td>";
             echo "<td>" . $car_info[$i][3] . "</td>";
+            echo "<td>" . $car_info[$i][4] . "</td>";
             echo "<td>" . "<a href='edit.php?car_name=" . $car_info[$i][0] . "'><button> Edit </button> </a>" . "</td>";
             echo "<td>" . "<a href='delete.php?car_name=" . $car_info[$i][0] . "'><button> Delete </button> </a>" . "</td>";
             echo "</tr>";

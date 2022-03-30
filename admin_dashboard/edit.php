@@ -23,7 +23,7 @@ function editTextarea($car_name, $info_dir)
     $car_info = explode(";", $info_array[$line_num]);
     echo "<form action='' method=\"post\">";
     echo "<textarea name='car_info' rows='10' cols='50'>";
-    echo $car_info[0] . ";" . $car_info[1] . ";" . $car_info[2] . ";" . $car_info[3];
+    echo $car_info[0] . ";" . $car_info[1] . ";" . $car_info[2] . ";" . $car_info[3] . ";" . $car_info[4] . ";";
     echo "</textarea>";
     echo "<input type=\"submit\" name =\"save\" value=\"save changes\">";
     echo "</form>";
@@ -102,18 +102,32 @@ if (isset($_POST['submit'])) {
     }
 }
 
+//show all images that are on images/car_pages/car_name
+function showImages($car_name)
+{
+    $target_dir = "../images/car_images/" . $car_name . "/";
+    $images = glob($target_dir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+    foreach ($images as $image) {
+        echo "<img src='" . $image . "' width='200' height='200'>";
+    }
+}
+
+showImages($car_name);
+
+
 if (isset($_POST['save'])) {
     //save changes
-    deleteLine($car_name, $info_dir);
     $car_info = $_POST['car_info'];
     $car_info_array = explode(";", $car_info);
     $car_name = $car_info_array[0];
     $car_price = $car_info_array[1];
     $car_desc = $car_info_array[2];
     $car_availability = $car_info_array[3];
+    $car_transmission = $car_info_array[4];
     $line_num = findLine($car_name, $info_dir);
     $info_array = file($info_dir);
-    $info_array[$line_num] = $car_name . ";" . $car_price . ";" . $car_desc . ";" . $car_availability;
+    deleteLine($car_name, $info_dir);
+    $info_array[$line_num] = $car_name . ";" . $car_price . ";" . $car_desc . ";" . $car_availability . ";" . $car_transmission . ";\n";
     $info_file = fopen($info_dir, "w");
     foreach ($info_array as $line) {
         fwrite($info_file, $line);
@@ -126,7 +140,6 @@ if (isset($_POST['save'])) {
     $html_index_file = fopen($html_index_dir, "w");
     $template_file = fopen($template_dir, "r");
 
-    //count images in images/car_images/car_name
     $image_dir = "../images/car_images/" . $car_name . "/";
     $image_array = glob($image_dir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
     $image_count = count($image_array);
@@ -136,8 +149,8 @@ if (isset($_POST['save'])) {
         $car_reference .= '				
         <div class="col-sm-12 col-md-4 col-lg-4">
             <h3>{car_name}</h3>
-            <a class="lightbox" href="/images/car_images/' . $car_name . "/" . basename($image) . '" >
-                <img class="img-fluid" src="/images/car_images/' . $car_name . "/" . basename($image) . '">
+            <a class="lightbox">
+                <img class="img-fluid" style="width:500px; height:300px" src="/images/car_images/' . $car_name . "/" . basename($image) . '">
             </a>
         </div>';
     }
@@ -149,10 +162,53 @@ if (isset($_POST['save'])) {
         $line = str_replace("{car_price}", $car_price, $line);
         $line = str_replace("{car_desc}", $car_desc, $line);
         $line = str_replace("{car_availability}", $car_availability, $line);
+        $line = str_replace("{car_transmission}", $car_transmission, $line);
         fwrite($html_index_file, $line);
     }
     fclose($html_index_file);
     fclose($template_file);
+
+
+    //open file cars.txt 
+    $cars_dir = "../assets/car_info/cars.txt";
+    $cars_file = fopen($cars_dir, "r");
+
+    //open cars.html
+    $cars_html_dir = "../cars.html";
+    $cars_html_file = fopen($cars_html_dir, "w");
+
+    $special_list = "";
+    $info_array = file($info_dir);
+
+    foreach ($info_array as $line) {
+        $line_array = explode(";", $line);
+
+        $image_dir = "../images/car_images/" . $line_array[0] . "/";
+        $image_array = glob($image_dir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+        $image_path = $image_array[0];
+        $image_name = basename($image_path);
+        $image_name = str_replace(" ", "%20", $image_name);
+
+        $special_list .= '  <div class="col-lg-4 col-md-6 special-grid ' . $line_array[4] . '">
+            <div class="gallery-single fix">
+                <a href="/assets/car_pages/' . $line_array[0] . '/index.html" target="_blank">
+                <img src="' . $image_path . '" class="img-fluid" alt="Image" style="width:500px; height:300px">
+                <div class="why-text">
+                    <h4>' . $line_array[1] . '</h4>
+                    <p>' . $line_array[2] . '</p>
+                    <h5>' . $line_array[3] . '</h5>
+                </div>
+            </div>
+        </div>';
+    }
+
+    while (!feof($cars_file)) {
+        $line = fgets($cars_file);
+        $line = str_replace("{special_list}", $special_list, $line);
+        fwrite($cars_html_file, $line);
+    }
+    fclose($cars_file);
+    fclose($cars_html_file);
 
     header("Location: /admin_dashboard/");
 }
