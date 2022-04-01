@@ -1,0 +1,3 @@
+bmw m3;21 euro;bmw m3;Available;Automatic;
+golf mk5;20 euro;bmw m3 2008;Unavailable;Automatic;
+ford fiesta;20 euro;Ford Fiesta 2012 Diesel;Available;Manual;
