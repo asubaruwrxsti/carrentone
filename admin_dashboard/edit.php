@@ -1,4 +1,46 @@
+<!DOCTYPE html>
+
+<style>
+    input[type=text],
+    select {
+        width: 10%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 10%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    div {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+</style>
+
 <?php
+
+//check if the user is logged in
+session_start();
+if (!isset($_SESSION['logged_in'])) {
+    header('Location: login.php');
+}
 
 $car_name = $_GET['car_name'];
 $info_dir = "../assets/car_info/info.txt";
@@ -24,7 +66,7 @@ function editTextarea($car_name, $info_dir)
     echo "<form action='' method=\"post\">";
     echo "<textarea name='car_info' rows='10' cols='50'>";
     echo $car_info[0] . ";" . $car_info[1] . ";" . $car_info[2] . ";" . $car_info[3] . ";" . $car_info[4] . ";";
-    echo "</textarea>";
+    echo "</textarea>", "<br>";
     echo "<input type=\"submit\" name =\"save\" value=\"save changes\">";
     echo "</form>";
 }
@@ -40,7 +82,6 @@ function deleteLine($car_name, $info_dir)
     file_put_contents($info_dir, $info_array);
 }
 
-//form to upload an image to images/car_pages/car_name
 function uploadImage()
 {
     echo "<form action='' method=\"post\" enctype=\"multipart/form-data\">";
@@ -102,7 +143,6 @@ if (isset($_POST['submit'])) {
     }
 }
 
-//show all images that are on images/car_pages/car_name
 function showImages($car_name)
 {
     $target_dir = "../images/car_images/" . $car_name . "/";
@@ -168,12 +208,9 @@ if (isset($_POST['save'])) {
     fclose($html_index_file);
     fclose($template_file);
 
-
-    //open file cars.txt 
     $cars_dir = "../assets/car_info/cars.txt";
     $cars_file = fopen($cars_dir, "r");
-
-    //open cars.html
+    
     $cars_html_dir = "../cars.html";
     $cars_html_file = fopen($cars_html_dir, "w");
 

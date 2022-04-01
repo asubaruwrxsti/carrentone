@@ -1,5 +1,10 @@
 <?php
 
+session_start();
+if (!isset($_SESSION['logged_in'])) {
+    header('Location: login.php');
+}
+
 function findLine($car_name, $info_dir)
 {
     $info_array = file($info_dir);
@@ -41,7 +46,7 @@ if (isset($_GET['car_name'])) {
         }
     }
     rmdir($car_image_dir);
-    
+
 
     header("Location: /admin_dashboard/index.php");
 }

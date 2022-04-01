@@ -1,8 +1,44 @@
 <!DOCTYPE html>
+<style>
+    #cars {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #cars td,
+    #cars th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #cars tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #cars tr:hover {
+        background-color: #ddd;
+    }
+
+    #cars th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+    }
+</style>
 
 <body>
 
     <?php
+
+    session_start();
+    if (!isset($_SESSION['logged_in'])) {
+        header('Location: login.php');
+    }
+
+
     $dir = "../assets/car_pages/";
     $info_dir = "../assets/car_info/info.txt";
 
@@ -55,7 +91,7 @@
 
     ?>
 
-    <table border="1">
+    <table border="1" id="cars">
         <tr>
             <th>Car Name</th>
             <th>Price</th>
@@ -81,8 +117,20 @@
         }
         ?>
     </table>
+    </br> </br>
 
-    <a href="add.php"><button>Shto makine</button></a>
+    <!-- make the button bigger -->
+    <style>
+        button {
+            font-size: 20px;
+        }
+    </style>
+
+
+    <center>
+        <a href="add.php"><button class="btn btn-primary btn-lg" style="background-color: #04AA6D; color: white;">Add Car</button></a>
+        <a href="logout.php"><button class="btn btn-primary btn-lg" style="background-color: #04AA6D; color: white;">Logout</button></a>
+    </center>
 
 </body>
 
