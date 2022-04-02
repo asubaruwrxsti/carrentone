@@ -117,10 +117,12 @@ if (isset($_POST['submit'])) {
             $uploadOk = 0;
         }
         // Check file size
+        /*
         if ($_FILES["fileToUpload"]["size"] > 500000) {
             echo "Sorry, your file is too large.";
             $uploadOk = 0;
         }
+        
         // Allow certain file formats
         if (
             $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -129,15 +131,16 @@ if (isset($_POST['submit'])) {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
+        */
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
             echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+                echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded. <br>";
             } else {
-                echo "Sorry, there was an error uploading your file.";
+                echo "Sorry, there was an error uploading your file. <br>";
             }
         }
     }
@@ -146,7 +149,7 @@ if (isset($_POST['submit'])) {
 function showImages($car_name)
 {
     $target_dir = "../images/car_images/" . $car_name . "/";
-    $images = glob($target_dir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+    $images = glob($target_dir . "*.*", GLOB_BRACE);
     foreach ($images as $image) {
         echo "<img src='" . $image . "' width='200' height='200'>";
     }
@@ -181,16 +184,15 @@ if (isset($_POST['save'])) {
     $template_file = fopen($template_dir, "r");
 
     $image_dir = "../images/car_images/" . $car_name . "/";
-    $image_array = glob($image_dir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+    $image_array = glob($image_dir . "*.*", GLOB_BRACE);
     $image_count = count($image_array);
 
     $car_reference = "";
     foreach ($image_array as $image) {
         $car_reference .= '				
         <div class="col-sm-12 col-md-4 col-lg-4">
-            <h3>{car_name}</h3>
             <a class="lightbox">
-                <img class="img-fluid" style="width:500px; height:300px" src="/images/car_images/' . $car_name . "/" . basename($image) . '">
+                <img class="img-fluid" src="/images/car_images/' . $car_name . "/" . basename($image) . '">
             </a>
         </div>';
     }
@@ -221,7 +223,7 @@ if (isset($_POST['save'])) {
         $line_array = explode(";", $line);
 
         $image_dir = "../images/car_images/" . $line_array[0] . "/";
-        $image_array = glob($image_dir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+        $image_array = glob($image_dir . "*.*", GLOB_BRACE);
         $image_path = $image_array[0];
         $image_name = basename($image_path);
         $image_name = str_replace(" ", "%20", $image_name);
@@ -229,7 +231,7 @@ if (isset($_POST['save'])) {
         $special_list .= '  <div class="col-lg-4 col-md-6 special-grid ' . $line_array[4] . '">
             <div class="gallery-single fix">
                 <a href="/assets/car_pages/' . $line_array[0] . '/index.html" target="_blank">
-                <img src="' . $image_path . '" class="img-fluid" alt="Image" style="width:500px; height:300px">
+                <img src="' . $image_path . '" class="img-fluid" alt="Image">
                 <div class="why-text">
                     <h4>' . $line_array[1] . '</h4>
                     <p>' . $line_array[2] . '</p>

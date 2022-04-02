@@ -1,3 +1,5 @@
-bmw m3;21 euro;bmw m3;Available;Automatic;
-golf mk5;20 euro;bmw m3 2008;Unavailable;Automatic;
-ford fiesta;20 euro;Ford Fiesta 2012 Diesel;Available;Manual;
+Ford Focus;40 Euro / Day;1.6 Diesel, 2013;Available;Manual;
+Mercedes Benz B-Class;35 Euro / Day;2.0 Diesel, 2007;Available;Automatic;
+Volkswagen Golf 5;30 Euro / Day;1.9 Diesel, 2006;Available;Manual;
+Volkswagen Golf V;30 Euro / Day;1.6 Petrol, 2006;Available;Manual;
+Opel Corsa;25 Euro / Day;1.2 Petrol, 2009;Available;Manual;
